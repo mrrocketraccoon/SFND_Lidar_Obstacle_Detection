@@ -161,7 +161,7 @@ std::pair<typename pcl::PointCloud<PointT>::Ptr, typename pcl::PointCloud<PointT
 	    float B = (p2.z-p1.z)*(p3.x-p1.x)-(p2.x-p1.x)*(p3.z-p1.z);
 	    float C = (p2.x-p1.x)*(p3.y-p1.y)-(p2.y-p1.y)*(p3.x-p1.x);
         float D = -(A*p1.x+B*p1.y+C*p1.z);
-        float distance = abs(A*point.x+B*point.y+C*point.z+D)/(sqrt(pow(A,2.0)+pow(B,2.0)+pow(C,2.0)));
+        float distance = fabs(A*point.x+B*point.y+C*point.z+D)/(sqrt(pow(A,2.0)+pow(B,2.0)+pow(C,2.0)));
         // If distance is smaller than threshold count it as inlier
 
         if(distance<distanceTol)
