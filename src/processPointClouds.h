@@ -19,6 +19,7 @@
 #include <chrono>
 #include "render/box.h"
 #include <unordered_set>
+#include "utils.h"
 
 template<typename PointT>
 class ProcessPointClouds {
