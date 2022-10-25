@@ -29,9 +29,9 @@ struct KdTree
 	{}
   
 	//The double pointer is just the memory address of pointer node
-	void insertHelper(Node** node, uint depth, PointT point, int id)
+	void insertHelper(Node** node, int depth, PointT point, int id)
 	{
-      uint axis = depth%3;
+      int axis = depth%3;
       //If node is Null insert point creating a new node.
   	  if(*node == NULL)
       {
@@ -50,20 +50,14 @@ struct KdTree
 
   void setInputCloud(typename pcl::PointCloud<PointT>::Ptr cloud)
   {
-    for(uint id = 0; id < cloud->points.size(); id++)
+    for(int id = 0; id < cloud->points.size(); id++)
     {
       insertHelper(&root, 0, cloud->points[id], id);
     }
   }
   
-  void insert(std::vector<float> point, int id)
-	{
-	  // TODO: Fill in this function to insert a new point into the tree
-	  // the function should create a new node and place correctly with in the root 
-	  insertHelper(&root,0,point,id);
-	}
 
-  	void searchHelper(PointT target, Node* node, int depth, float distanceTol, std::vector<int>& ids)
+  void searchHelper(PointT target, Node* node, int depth, float distanceTol, std::vector<int>& ids)
     {
       uint id = depth%3;
       

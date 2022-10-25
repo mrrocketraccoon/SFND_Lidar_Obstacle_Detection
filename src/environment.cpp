@@ -109,12 +109,15 @@ void cityBlock(pcl::visualization::PCLVisualizer::Ptr& viewer, ProcessPointCloud
 
   std::pair<pcl::PointCloud<pcl::PointXYZI>::Ptr, pcl::PointCloud<pcl::PointXYZI>::Ptr> segmentCloud = pointProcessorI.RansacPlane(inputCloud, 100, 0.2);
   //std::pair<pcl::PointCloud<pcl::PointXYZI>::Ptr, pcl::PointCloud<pcl::PointXYZI>::Ptr> segmentCloud = pointProcessorI.SegmentPlane(inputCloud, 100, 0.2);
-  renderPointCloud(viewer,segmentCloud.first,"obstacleCloud", Color(1,0,0));
+  //renderPointCloud(viewer,segmentCloud.first,"obstacleCloud", Color(1,0,0));
   renderPointCloud(viewer,segmentCloud.second,"planeCloud", Color(0,1,0));
-  std::vector<pcl::PointCloud<pcl::PointXYZI>::Ptr> cloudClusters = pointProcessorI.EuclideanClustering(segmentCloud.first, 1.0, 3, 600);
+  
+  std::vector<pcl::PointCloud<pcl::PointXYZI>::Ptr> cloudClusters = pointProcessorI.EuclideanClustering(segmentCloud.first, 0.3, 10, 1000);
+
+  //std::vector<pcl::PointCloud<pcl::PointXYZI>::Ptr> cloudClusters = pointProcessorI.Clustering(segmentCloud.first, 0.3, 10, 1000);
   
   int clusterId = 0;
-  std::vector<Color> colors = {Color(1,0,0), Color(0,1,0), Color(0,0,1)};
+  std::vector<Color> colors = {Color(1,0,0), Color(1,1,0), Color(0,0,1)};
   for(pcl::PointCloud<pcl::PointXYZI>::Ptr cluster : cloudClusters)
   {
     std::cout << "cluster size ";
@@ -123,7 +126,7 @@ void cityBlock(pcl::visualization::PCLVisualizer::Ptr& viewer, ProcessPointCloud
     Box box = pointProcessorI.BoundingBox(cluster);
     renderBox(viewer, box, clusterId);
     ++clusterId;
-  }  	
+  }
 }
 
 int main (int argc, char** argv)
